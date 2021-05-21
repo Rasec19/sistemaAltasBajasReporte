@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Examen_ProyectoEscuela" Class="conexDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=RASEC_THINKPAD\SQLEXPRESS;Initial Catalog=Examen_ProyectoEscuela;Integrated Security=True" SettingsObjectName="Examen_EC2.Properties.Settings" SettingsPropertyName="Examen_ProyectoEscuelaConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Alumnos" Member="Alumnos">
+    <Type Name="Alumnos">
+      <Column Name="ID_Alumno" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="NChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="Carrera" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Carreras_Alumnos" Member="Carreras" ThisKey="Carrera" OtherKey="ID_Carrera" Type="Carreras" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[Cargas Alumnos]" Member="Cargas_Alumnos">
+    <Type Name="Cargas_Alumnos">
+      <Column Name="ID_Alumno" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Carrera" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Materia" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Profesor" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Carreras_Cargas_Alumnos" Member="Carreras" ThisKey="Carrera" OtherKey="ID_Carrera" Type="Carreras" IsForeignKey="true" />
+      <Association Name="Maestros_Cargas_Alumnos" Member="Maestros" ThisKey="Profesor" OtherKey="ID_Maestros" Type="Maestros" IsForeignKey="true" />
+      <Association Name="Materias_Cargas_Alumnos" Member="Materias" ThisKey="Materia" OtherKey="ID_Materia" Type="Materias" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[Cargas Docentes]" Member="Cargas_Docentes">
+    <Type Name="Cargas_Docentes">
+      <Column Name="ID_Docente" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Carrera" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Materia" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Carreras_Cargas_Docentes" Member="Carreras" ThisKey="Carrera" OtherKey="ID_Carrera" Type="Carreras" IsForeignKey="true" />
+      <Association Name="Maestros_Cargas_Docentes" Member="Maestros" ThisKey="Nombre" OtherKey="ID_Maestros" Type="Maestros" IsForeignKey="true" />
+      <Association Name="Materias_Cargas_Docentes" Member="Materias" ThisKey="Materia" OtherKey="ID_Materia" Type="Materias" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Carreras" Member="Carreras">
+    <Type Name="Carreras">
+      <Column Name="ID_Carrera" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="NChar(60) NOT NULL" CanBeNull="false" />
+      <Association Name="Carreras_Alumnos" Member="Alumnos" ThisKey="ID_Carrera" OtherKey="Carrera" Type="Alumnos" />
+      <Association Name="Carreras_Cargas_Alumnos" Member="Cargas_Alumnos" ThisKey="ID_Carrera" OtherKey="Carrera" Type="Cargas_Alumnos" />
+      <Association Name="Carreras_Cargas_Docentes" Member="Cargas_Docentes" ThisKey="ID_Carrera" OtherKey="Carrera" Type="Cargas_Docentes" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Maestros" Member="Maestros">
+    <Type Name="Maestros">
+      <Column Name="ID_Maestros" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="NChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="Direccion" Type="System.String" DbType="NChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="Maestros_Cargas_Alumnos" Member="Cargas_Alumnos" ThisKey="ID_Maestros" OtherKey="Profesor" Type="Cargas_Alumnos" />
+      <Association Name="Maestros_Cargas_Docentes" Member="Cargas_Docentes" ThisKey="ID_Maestros" OtherKey="Nombre" Type="Cargas_Docentes" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Materias" Member="Materias">
+    <Type Name="Materias">
+      <Column Name="ID_Materia" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="NChar(60) NOT NULL" CanBeNull="false" />
+      <Association Name="Materias_Cargas_Alumnos" Member="Cargas_Alumnos" ThisKey="ID_Materia" OtherKey="Materia" Type="Cargas_Alumnos" />
+      <Association Name="Materias_Cargas_Docentes" Member="Cargas_Docentes" ThisKey="ID_Materia" OtherKey="Materia" Type="Cargas_Docentes" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[Usuarios del sistema]" Member="Usuarios_del_sistema">
+    <Type Name="Usuarios_del_sistema">
+      <Column Name="ID_Usuario" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="NChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="Contraseña" Type="System.String" DbType="NChar(200) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Function Name="dbo.MostrarCargasAlumnos" Method="MostrarCargasAlumnos">
+    <ElementType Name="MostrarCargasAlumnosResult">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Alumno" Type="System.String" DbType="NChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="Carrera" Type="System.String" DbType="NChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="Materia" Type="System.String" DbType="NChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="Profesor" Type="System.String" DbType="NChar(60) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.MostrarCargasDocentes" Method="MostrarCargasDocentes">
+    <ElementType Name="MostrarCargasDocentesResult">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Profesor" Type="System.String" DbType="NChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="Carrera" Type="System.String" DbType="NChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="Materia" Type="System.String" DbType="NChar(60) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.Login" Method="Login">
+    <Parameter Name="usuario" Type="System.Char" DbType="NChar(1)" />
+    <Parameter Name="pass" Type="System.Char" DbType="NChar(1)" />
+    <ElementType Name="LoginResult">
+      <Column Name="Usuario" Type="System.String" DbType="NChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="Contraseña" Type="System.String" DbType="NChar(200) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.LoginPass" Method="LoginPass">
+    <Parameter Name="pass" Type="System.Char" DbType="NChar(1)" />
+    <ElementType Name="LoginPassResult">
+      <Column Name="Usuario" Type="System.String" DbType="NChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="Contraseña" Type="System.String" DbType="NChar(200) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.LoginUsuario" Method="LoginUsuario">
+    <Parameter Name="usu" Type="System.Char" DbType="NChar(1)" />
+    <ElementType Name="LoginUsuarioResult">
+      <Column Name="Usuario" Type="System.String" DbType="NChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="Contraseña" Type="System.String" DbType="NChar(200) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.MostrarNombreCarrera_Por_IdAlumno" Method="MostrarNombreCarrera_Por_IdAlumno">
+    <Parameter Name="idAlumno" Type="System.Int32" DbType="Int" />
+    <ElementType Name="MostrarNombreCarrera_Por_IdAlumnoResult">
+      <Column Name="Nombre" Type="System.String" DbType="NChar(60) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.MostrarAlumnos" Method="MostrarAlumnos">
+    <ElementType Name="MostrarAlumnosResult">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Alumno" Type="System.String" DbType="NChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="Carrera" Type="System.String" DbType="NChar(60) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+</Database>
